@@ -320,19 +320,17 @@ The live backend (`POST /api/v1/predict`) runs the exact same fusion/classificat
 
 ## Screenshots
 
-> _Add dashboard screenshots here before publishing._
-
 | Login | Overview |
 |---|---|
-| `docs/screenshots/login.png` | `docs/screenshots/overview.png` |
+| ![Login screen](docs/screenshots/login.png) | ![Dashboard overview](docs/screenshots/overview.png) |
 
 | Alert Queue | Alert Detail |
 |---|---|
-| `docs/screenshots/alert-queue.png` | `docs/screenshots/alert-detail.png` |
+| ![Alert queue](docs/screenshots/alert-queue.png) | ![Alert detail with SHAP explanation](docs/screenshots/alert-detail.png) |
 
 | Entity History |
 |---|
-| `docs/screenshots/entity-history.png` |
+| ![Entity history](docs/screenshots/entity-history.png) |
 
 ## Future Work
 
