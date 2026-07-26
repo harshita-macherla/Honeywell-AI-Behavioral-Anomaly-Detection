@@ -287,10 +287,41 @@ def compute_risk_score(fused_anomaly_score_scaled: float, prediction_confidence:
 
 
 def risk_level_for(score: float) -> str:
-    for low, high, label in RISK_LEVEL_BINS:
-        if low <= score <= high:
-            return label
-    return "Low"
+    """
+    BUG FOUND DURING BACKEND INTEGRATION TESTING, FIXED HERE:
+    The original v1 implementation (inherited unchanged into this v2
+    script) checked `low <= score <= high` against inclusive-inclusive
+    bins (80,100), (60,79), (35,59), (0,34). Because risk_score is a
+    rounded float with one decimal place (see compute_risk_score()'s
+    `round(..., 1)`), any score strictly between 59.0-60.0 or 79.0-80.0
+    (e.g. 59.1, 79.4) matched NONE of the four bins and silently fell
+    through to the `return "Low"` default -- mislabeling Medium/High-tier
+    events as Low.
+      Discovered live: the new backend's /api/v1/predict endpoint returned
+    risk_score=59.1 labeled "Low" instead of "Medium" for a real IoT-device
+    event during endpoint testing. Quantified the blast radius against the
+    already-computed risk_scores_v2.csv: 4 rows fall in the 59-60 gap (2 of
+    them true attacks) and 51 rows fall in the 79-80 gap (all 51 of them
+    true attacks) -- all 55 were mislabeled "Low" when they should have
+    been "Medium" or "High" respectively. The same gap exists in v1's
+    risk_scoring_engine.py (68 affected rows there) but that script is
+    left untouched, per the project rule to treat v1 as a frozen baseline
+    for the report -- only this v2 script (which the new backend actually
+    depends on) is corrected here.
+      Fix: replaced the gappy inclusive-inclusive bin scan with a gapless
+    threshold cascade covering the full 0-100 range with no seams,
+    regardless of decimal precision. RISK_LEVEL_BINS above is kept as
+    human-readable documentation of the same thresholds; this function no
+    longer iterates it.
+    """
+    if score >= 80:
+        return "Critical"
+    elif score >= 60:
+        return "High"
+    elif score >= 35:
+        return "Medium"
+    else:
+        return "Low"
 
 
 def get_shap_reasons(shap_row: np.ndarray, feature_names: list, top_k: int = 5) -> list:

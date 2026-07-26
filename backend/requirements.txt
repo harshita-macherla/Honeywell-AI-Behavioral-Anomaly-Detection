@@ -1,0 +1,17 @@
+# Backend-specific dependencies. The ML dependencies below (numpy, pandas,
+# scikit-learn, tensorflow, xgboost, joblib, shap) are the same ones
+# already required by scripts/train_stage1_anomaly_detection_v2.py,
+# scripts/train_stage2_classification_v2.py, and
+# scripts/risk_scoring_engine_v2.py -- listed again here only so the
+# backend can be installed/run standalone.
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pydantic>=2.0
+
+numpy
+pandas
+scikit-learn
+tensorflow
+xgboost
+joblib
+shap
