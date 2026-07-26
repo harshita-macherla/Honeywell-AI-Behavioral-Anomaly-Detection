@@ -344,4 +344,5 @@ The live backend (`POST /api/v1/predict`) runs the exact same fusion/classificat
 
 ## Authors
 
-Built for the Honeywell AI Hackathon — Behavioral Anomaly Detection track.
+Built for the Honeywell AI Hackathon — Behavioral Anomaly Detection track
+By: Harshita M
