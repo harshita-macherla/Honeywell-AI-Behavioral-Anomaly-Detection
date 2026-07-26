@@ -24,6 +24,7 @@ import numpy as np
 import pandas as pd
 import shap
 import tensorflow as tf
+from xgboost import XGBClassifier
 
 from . import config
 
@@ -73,8 +74,21 @@ class AppState:
         # --- Load v2 models (trained by prior milestones; never retrained here) ---
         self.isolation_forest = self._load_joblib("Isolation Forest v2", config.ISOLATION_FOREST_V2_PATH)
         self.feature_scaler = self._load_joblib("Feature Scaler v2", config.FEATURE_SCALER_V2_PATH)
-        self.xgb_classifier = self._load_joblib("XGBoost Attack Classifier v2", config.XGB_CLASSIFIER_V2_PATH)
         self.label_encoder = self._load_joblib("Label Encoder v2", config.LABEL_ENCODER_V2_PATH)
+
+        # CHANGED: loaded via XGBoost's native JSON format instead of
+        # joblib -- the joblib artifact repeatedly failed to load after
+        # download ("XGBoostError: input stream corrupted") despite
+        # loading correctly server-side; XGBoost's own save_model/
+        # load_model round-trip was verified to produce byte-for-byte
+        # identical predict()/predict_proba() output before this switch.
+        try:
+            self.xgb_classifier = XGBClassifier()
+            self.xgb_classifier.load_model(config.XGB_CLASSIFIER_V2_PATH)
+            self.model_status.append({"name": "XGBoost Attack Classifier v2", "loaded": True, "path": config.XGB_CLASSIFIER_V2_PATH})
+        except Exception as exc:
+            self.model_status.append({"name": "XGBoost Attack Classifier v2", "loaded": False, "path": str(exc)})
+            raise
 
         try:
             self.lstm_autoencoder = tf.keras.models.load_model(config.LSTM_AUTOENCODER_V2_PATH)

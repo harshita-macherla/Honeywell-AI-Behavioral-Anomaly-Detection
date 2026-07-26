@@ -14,4 +14,20 @@ scikit-learn
 tensorflow
 xgboost
 joblib
-shap
+# BUG FOUND AND FIXED (verified live, not just in this sandbox): `shap`
+# was previously unpinned here. Bisected across 5 real shap releases
+# against this project's actual multiclass (13-class) XGBoost model
+# loaded from its native JSON format (models/xgb_attack_classifier_v2.json)
+# and found shap<=0.49.1 deterministically fails
+# backend/app/dependencies.py's `shap.TreeExplainer(self.xgb_classifier)`
+# call at startup with `ValueError: could not convert string to float`.
+# Root cause: XGBoost's JSON format stores a multiclass model's
+# base_score as a per-class array string (13 comma-separated values
+# here), and shap<=0.49.1's XGBTreeModelLoader tries to parse that whole
+# string as a single float. Confirmed fixed starting at shap==0.50.0
+# (0.44.1/0.46.0/0.48.0/0.49.1 all fail identically; 0.50.0/0.52.0 both
+# succeed). Without this pin, a fresh `pip install -r requirements.txt`
+# can silently resolve a shap version that makes the backend fail to
+# start every time -- this is exactly what happened when this project was
+# deployed outside the original build environment.
+shap>=0.50.0
