@@ -1,0 +1,335 @@
+@import "./tokens.css";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  background-image: radial-gradient(circle at 15% 0%, #0f1622 0%, #0a0e13 55%);
+  background-attachment: fixed;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: var(--lh-tight);
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--accent-info);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--accent-info-strong);
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--accent-info-dim);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Buttons                                                                 */
+/* ---------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: 0 var(--sp-4);
+  height: 38px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-panel-raised);
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+  white-space: nowrap;
+}
+.btn:hover {
+  background: var(--bg-panel-hover);
+  border-color: var(--accent-info);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn--primary {
+  background: var(--accent-info);
+  border-color: var(--accent-info);
+  color: var(--text-on-accent);
+}
+.btn--primary:hover {
+  background: var(--accent-info-strong);
+  border-color: var(--accent-info-strong);
+}
+.btn--ghost {
+  background: transparent;
+  border-color: transparent;
+}
+.btn--ghost:hover {
+  background: var(--bg-panel-hover);
+  border-color: var(--border-subtle);
+}
+.btn--full {
+  width: 100%;
+}
+.btn--sm {
+  height: 30px;
+  padding: 0 var(--sp-3);
+  font-size: var(--fs-xs);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Cards / panels                                                         */
+/* ---------------------------------------------------------------------- */
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+.panel--padded {
+  padding: var(--sp-5);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Risk badges                                                            */
+/* ---------------------------------------------------------------------- */
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 3px var(--sp-3) 3px var(--sp-2);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.risk-badge__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.risk-badge--critical {
+  background: var(--risk-critical-dim);
+  border-color: var(--risk-critical-border);
+  color: var(--risk-critical);
+}
+.risk-badge--critical .risk-badge__dot {
+  background: var(--risk-critical);
+  box-shadow: 0 0 0 0 rgba(228, 0, 43, 0.6);
+  animation: radar-pulse 1.8s ease-out infinite;
+}
+.risk-badge--high {
+  background: var(--risk-high-dim);
+  border-color: var(--risk-high-border);
+  color: var(--risk-high);
+}
+.risk-badge--high .risk-badge__dot {
+  background: var(--risk-high);
+}
+.risk-badge--medium {
+  background: var(--risk-medium-dim);
+  border-color: var(--risk-medium-border);
+  color: var(--risk-medium);
+}
+.risk-badge--medium .risk-badge__dot {
+  background: var(--risk-medium);
+}
+.risk-badge--low {
+  background: var(--risk-low-dim);
+  border-color: var(--risk-low-border);
+  color: var(--risk-low);
+}
+.risk-badge--low .risk-badge__dot {
+  background: var(--risk-low);
+}
+
+@keyframes radar-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(228, 0, 43, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(228, 0, 43, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(228, 0, 43, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .risk-badge--critical .risk-badge__dot {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Tables                                                                  */
+/* ---------------------------------------------------------------------- */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+.data-table thead th {
+  text-align: left;
+  padding: var(--sp-3) var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  border-bottom: 1px solid var(--border-subtle);
+  white-space: nowrap;
+}
+.data-table tbody td {
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+}
+.data-table tbody tr {
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+.data-table tbody tr:hover {
+  background: var(--bg-panel-raised);
+}
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Inputs                                                                  */
+/* ---------------------------------------------------------------------- */
+.input,
+.select {
+  height: 38px;
+  padding: 0 var(--sp-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+}
+.input::placeholder {
+  color: var(--text-tertiary);
+}
+.input:focus,
+.select:focus {
+  border-color: var(--accent-info);
+}
+.field-label {
+  display: block;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Utility states                                                         */
+/* ---------------------------------------------------------------------- */
+.state-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  padding: var(--sp-8) var(--sp-5);
+  color: var(--text-secondary);
+  text-align: center;
+}
+.state-block__icon {
+  color: var(--text-tertiary);
+}
+.state-block--error {
+  color: var(--risk-high);
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-panel-raised) 25%, var(--bg-panel-hover) 37%, var(--bg-panel-raised) 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shine 1.4s ease infinite;
+  border-radius: var(--radius-sm);
+}
+@keyframes skeleton-shine {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Scrollbars (subtle, matches surface)                                    */
+/* ---------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 6px;
+  border: 2px solid var(--bg-app);
+}

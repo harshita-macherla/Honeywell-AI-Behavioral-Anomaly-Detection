@@ -1,0 +1,111 @@
+/*
+  Design tokens -- Sentinel (Behavioral Anomaly Detection dashboard)
+
+  Direction: an industrial/enterprise security-operations console, in the
+  register of Honeywell's own safety & controls products -- a dark,
+  low-glare "watch room" surface built for long shifts, where color is
+  reserved almost entirely for risk signal (so a Critical alert reads as
+  Critical at a glance, not as decoration). Palette leans on Honeywell's
+  own red as the single alarm color, paired with a cool steel-blue for
+  everything that is informational rather than urgent.
+
+  Type: IBM Plex Sans for UI text (an enterprise/engineering-grade
+  typeface, not a startup default) and IBM Plex Mono for anything that is
+  DATA -- entity IDs, timestamps, scores, log IDs -- so numbers and
+  identifiers read as instrumentation, not prose.
+
+  Signature element: a slow pulsing ring on the Critical severity badge
+  (radar/sonar blip), used ONLY on Critical items -- see .risk-badge--critical
+  in global.css. Everything else is intentionally still.
+*/
+
+:root {
+  /* ---- Color: surfaces ---- */
+  --bg-app: #0a0e13;
+  --bg-panel: #111720;
+  --bg-panel-raised: #161d27;
+  --bg-panel-hover: #1a2230;
+  --bg-input: #0d131a;
+
+  --border-subtle: #212a35;
+  --border-strong: #2e3a48;
+  --border-focus: #3da9fc;
+
+  /* ---- Color: text ---- */
+  --text-primary: #e9eef4;
+  --text-secondary: #9aa9b8;
+  --text-tertiary: #64717f;
+  --text-on-accent: #0a0e13;
+
+  /* ---- Color: risk semantics (the only saturated colors in the system) ---- */
+  --risk-critical: #e4002b;
+  --risk-critical-dim: rgba(228, 0, 43, 0.14);
+  --risk-critical-border: rgba(228, 0, 43, 0.4);
+
+  --risk-high: #ff6a3d;
+  --risk-high-dim: rgba(255, 106, 61, 0.14);
+  --risk-high-border: rgba(255, 106, 61, 0.4);
+
+  --risk-medium: #f5a623;
+  --risk-medium-dim: rgba(245, 166, 35, 0.14);
+  --risk-medium-border: rgba(245, 166, 35, 0.4);
+
+  --risk-low: #2bb673;
+  --risk-low-dim: rgba(43, 182, 115, 0.14);
+  --risk-low-border: rgba(43, 182, 115, 0.4);
+
+  /* ---- Color: informational accent (links, primary actions, charts) ---- */
+  --accent-info: #3da9fc;
+  --accent-info-dim: rgba(61, 169, 252, 0.14);
+  --accent-info-strong: #6cc0ff;
+
+  /* ---- Typography ---- */
+  --font-ui: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+  --fs-xs: 0.6875rem; /* 11px -- eyebrow / micro labels */
+  --fs-sm: 0.8125rem; /* 13px -- secondary text, table cells */
+  --fs-base: 0.9375rem; /* 15px -- body */
+  --fs-md: 1.0625rem; /* 17px -- card titles */
+  --fs-lg: 1.375rem; /* 22px -- section titles */
+  --fs-xl: 1.875rem; /* 30px -- page titles */
+  --fs-xxl: 2.75rem; /* 44px -- hero metric */
+
+  --lh-tight: 1.2;
+  --lh-normal: 1.5;
+
+  /* ---- Spacing scale ---- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+
+  /* ---- Radius: tight, instrument-panel rather than app-friendly ---- */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+
+  /* ---- Elevation ---- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.55);
+
+  /* ---- Layout ---- */
+  --sidebar-width: 232px;
+  --topbar-height: 60px;
+  --content-max-width: 1400px;
+
+  --transition-fast: 120ms ease;
+  --transition-base: 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition-base: 0ms;
+  }
+}

@@ -1,0 +1,228 @@
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Sidebar                                                                 */
+/* ---------------------------------------------------------------------- */
+.sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-5) var(--sp-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-4) var(--sp-3);
+  flex: 1;
+}
+
+.sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-3);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.sidebar__link:hover {
+  background: var(--bg-panel-hover);
+  color: var(--text-primary);
+}
+.sidebar__link--active {
+  background: var(--accent-info-dim);
+  color: var(--accent-info-strong);
+}
+
+.sidebar__footer {
+  padding: var(--sp-4);
+  border-top: 1px solid var(--border-subtle);
+}
+.sidebar__footer-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-xs);
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+
+.sidebar__scrim {
+  display: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Topbar                                                                  */
+/* ---------------------------------------------------------------------- */
+.app-shell__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  height: var(--topbar-height);
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(17, 23, 32, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: 0 var(--sp-5);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar__menu-btn {
+  display: none;
+}
+
+.topbar__search {
+  flex: 1;
+  min-width: 0; /* BUG FIX: without this, a flex item's default min-width:auto
+    keeps it at its content's intrinsic width, which is wider than the
+    available space on narrow viewports -- confirmed via Playwright at
+    375px width, .topbar__right was pushed to right:451px (76px past the
+    375px viewport edge), causing horizontal page scroll. min-width:0 lets
+    this flex item actually shrink to fit, which is what flex:1 is
+    supposed to allow. */
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: 38px;
+  padding: 0 var(--sp-3);
+  background: var(--bg-input);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+}
+.topbar__search:focus-within {
+  border-color: var(--accent-info);
+}
+.topbar__search-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+}
+.topbar__search-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.topbar__right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+}
+
+.topbar__status {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+}
+
+.topbar__user {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.topbar__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-info-dim);
+  color: var(--accent-info-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: var(--fs-xs);
+  flex-shrink: 0;
+}
+.topbar__username {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Content                                                                 */
+/* ---------------------------------------------------------------------- */
+.app-shell__content {
+  flex: 1;
+  padding: var(--sp-6);
+  max-width: var(--content-max-width);
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Responsive                                                              */
+/* ---------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 40;
+    transform: translateX(-100%);
+    transition: transform var(--transition-base);
+    box-shadow: var(--shadow-lg);
+  }
+  .sidebar--open {
+    transform: translateX(0);
+  }
+  .sidebar__scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 30;
+  }
+  .topbar__menu-btn {
+    display: inline-flex;
+  }
+  .topbar__username {
+    display: none;
+  }
+  .app-shell__content {
+    padding: var(--sp-4);
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar__search {
+    max-width: none;
+  }
+  .topbar__status span {
+    display: none;
+  }
+}
